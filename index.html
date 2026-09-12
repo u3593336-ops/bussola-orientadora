@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bússola Orientadora</title>
+    
+    <!-- Fontes do Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variáveis de Cores e Estética */
+        :root {
+            --cor-base: #1E4045; /* Azul Petróleo */
+            --cor-accent: #E07A5F; /* Terracota Soft */
+            --cor-alerta: #9B2226; /* Vinho Fechado */
+            --vidro-bg: rgba(255, 255, 255, 0.85);
+            --vidro-borda: rgba(255, 255, 255, 0.3);
+            --sombra: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Configuração Base e Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            min-height: 100vh;
+            background-color: var(--cor-base); /* Cor de segurança caso a imagem demore a carregar */
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Fundo Travado: Solução anti-bug para iOS/Safari e Tela Cheia */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('fundo-bussola-blur-desktop.png') center/cover no-repeat;
+            z-index: -1;
+        }
+
+        /* Adaptação Perfeita para Modo Retrato (Mobile) */
+        @media (max-aspect-ratio: 1/1) {
+            body::before {
+                background: url('fundo-bussola-blur-mobile.png') center/cover no-repeat;
+            }
+        }
+
+        /* Estrutura Principal */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Cabeçalho Glassmorphism */
+        header {
+            background: var(--vidro-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--vidro-borda);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            color: var(--cor-base);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .btn-alerta {
+            background-color: var(--cor-alerta);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-alerta:hover { 
+            transform: scale(1.05);
+            background-color: #7A191D;
+        }
+
+        /* Banner Hero */
+        .hero {
+            background: var(--vidro-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--vidro-borda);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: var(--sombra);
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--cor-base);
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .hero p { 
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 16px;
+        }
+
+        .citacao { 
+            font-style: italic;
+            color: var(--cor-accent);
+            font-weight: 500;
+        }
+
+        /* Grid de Cards (Módulos) */
+        .modulos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Estilo dos Cards e Sanfona (Accordion) */
+        .card {
+            background: var(--vidro-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--vidro-borda);
+            border-radius: 16px;
+            box-shadow: var(--sombra);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--cor-base);
+            border-bottom: 1px solid transparent;
+        }
+
+        .accordion-item {
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .accordion-btn {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 16px 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .accordion-btn:hover { background: rgba(0, 0, 0, 0.02); }
+        
+        .seta {
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+        
+        .accordion-btn.ativo .seta { transform: rotate(180deg); }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .accordion-inner {
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #444;
+        }
+
+        ul, ol { padding-left: 20px; margin-top: 8px; }
+        li { margin-bottom: 8px; }
+
+        /* Botões de Download */
+        .btn-download {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: var(--cor-base);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .btn-download:hover {
+            background-color: #152E32;
+        }
+
+        /* Rodapé Institucional */
+        footer {
+            background: var(--cor-base);
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 24px 20px;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.6rem; }
+            .btn-alerta { font-size: 0.8rem; padding: 8px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Bússola Orientadora</a>
+        <a href="#modulo1" class="btn-alerta">🚨 Acolhi um relato. E agora?</a>
+    </header>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Guia Procedimental e Ético</h1>
+            <p>Acolhimento de revelações espontâneas de violência sexual na escola pública. Um dispositivo sensível construído em coautoria discente-docente para respaldar profissionais e proteger crianças.</p>
+            <p class="citacao">"A vida não me assusta. Criar pontes e brechas de cuidado no chão da escola pública."</p>
+        </section>
+
+        <!-- Grade de Módulos -->
+        <div class="modulos-grid">
+            
+            <!-- Módulo 1 -->
+            <div class="card" id="modulo1">
+                <div class="card-header">💜 1. Acolhimento Sensível</div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-btn">O que Fazer no Relato <span class="seta">▼</span></button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <ul>
+                                <li>Escute com atenção, serenidade e acolhimento.</li>
+                                <li>Reafirme para o/a estudante que a culpa nunca é dele/dela.</li>
+                                <li>Garanta sigilo e proteção, realizando a contenção emocional.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-btn">O que NÃO Fazer <span class="seta">▼</span></button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <ul>
+                                <li>Não faça perguntas investigativas.</li>
+                                <li>Não revitimize (evite que a criança repita a história).</li>
+                                <li>Não prometa segredos que impeçam a denúncia legal.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 2 -->
+            <div class="card">
+                <div class="card-header">🗺️ 2. Fluxograma Vivo</div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-btn">Passo a Passo Institucional <span class="seta">▼</span></button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <ol>
+                                <li><strong>Registro Interno:</strong> O acolhimento é repassado à direção/equipe pedagógica.</li>
+                                <li><strong>Mediação Regional:</strong> Articulação via Superintendência Regional de Ensino.</li>
+                                <li><strong>Rede de Garantia (SGD):</strong> Acionamento seguro do Conselho Tutelar ou Ministério Público.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 3 -->
+            <div class="card">
+                <div class="card-header">📄 3. Retaguarda Registral</div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-btn">Proteção ao Docente <span class="seta">▼</span></button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            A notificação passa a ser <strong>institucional (da escola)</strong>, resguardando a identidade e segurança do profissional que ouviu o relato.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-btn">Modelos para Download <span class="seta">▼</span></button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p>Baixe os arquivos para preenchimento (Disponíveis em breve):</p>
+                            <a href="#" class="btn-download">⬇️ Ficha de Relatório Sigiloso</a>
+                            <a href="#" class="btn-download">⬇️ Encaminhamento Institucional</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 4 -->
+            <div class="card">
+                <div class="card-header">🎨 4. Espaço da Cartilha</div>
+                
+                <div class="accordion-item">
+                    <button class="accordion-btn">Material Preventivo <span class="seta">▼</span></button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p>Cartilha construída em coautoria discente sobre limites do corpo e autoproteção infantil.</p>
+                            <a href="#" class="btn-download">⬇️ Baixar Cartilha (PDF)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>Universidade Federal de Minas Gerais (UFMG)</strong></p>
+        <p>Mestrado Profissional em Educação e Docência (PROMESTRE)</p>
+        <p style="margin-top: 10px; opacity: 0.7; font-size: 0.8rem;">Licenciamento Aberto (Creative Commons)</p>
+    </footer>
+
+    <!-- Script de Interatividade Seguro contra Bugs (Sanfonas) -->
+    <script>
+        document.querySelectorAll('.accordion-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const accordionContent = button.nextElementSibling;
+                const isOpen = button.classList.contains('ativo');
+                
+                // Fecha suavemente todos os itens abertos
+                document.querySelectorAll('.accordion-btn').forEach(btn => {
+                    btn.classList.remove('ativo');
+                    btn.nextElementSibling.style.maxHeight = null;
+                });
+
+                // Se o item clicado estava fechado, ele abre perfeitamente
+                if (!isOpen) {
+                    button.classList.add('ativo');
+                    accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

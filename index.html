@@ -11,19 +11,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* === Variáveis de Cores (Paleta Intercalada) e Efeitos === */
+        /* === Variáveis de Cores (Ultra Translúcido) e Efeitos === */
         :root {
-            --roxo-base: rgba(190, 128, 255, 0.7); /* #BE80FF */
-            --roxo-brilho: rgba(190, 128, 255, 0.9);
-            --ciano-base: rgba(99, 211, 255, 0.7); /* #63D3FF */
-            --ciano-brilho: rgba(99, 211, 255, 0.9);
-            --emergencia-base: rgba(180, 40, 50, 0.85);
+            /* Tons muito mais transparentes para destacar o fundo e o "Vidro Líquido" */
+            --roxo-claro: rgba(190, 128, 255, 0.25);
+            --roxo-escuro: rgba(120, 60, 180, 0.35);
+            --ciano-claro: rgba(99, 211, 255, 0.25);
+            --ciano-escuro: rgba(40, 140, 190, 0.35);
+            --emergencia-claro: rgba(220, 50, 60, 0.4);
+            --emergencia-escuro: rgba(150, 20, 30, 0.5);
             
-            /* Efeito iOS 27 Liquid Glass */
-            --vidro-blur: blur(24px);
-            --vidro-borda: rgba(255, 255, 255, 0.2);
-            --vidro-topo: rgba(255, 255, 255, 0.6);
-            --sombra-vidro: 0 16px 40px rgba(0, 0, 0, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.15);
+            /* Efeito iOS 27 Liquid Glass Aprimorado */
+            --vidro-blur: blur(30px);
+            --vidro-borda: rgba(255, 255, 255, 0.15);
+            --vidro-topo: rgba(255, 255, 255, 0.4);
+            --vidro-esquerda: rgba(255, 255, 255, 0.2);
+            --sombra-vidro: 0 16px 40px rgba(0, 0, 0, 0.3), inset 0 2px 20px rgba(255, 255, 255, 0.15);
             
             --texto-branco: #FFFFFF;
         }
@@ -53,7 +56,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: url('fundo-bussola-blur-desktop.png') center/cover no-repeat;
             z-index: -1;
-            filter: brightness(0.7) contrast(1.1);
+            filter: brightness(0.8) contrast(1.1);
         }
 
         @media (max-aspect-ratio: 1/1) {
@@ -85,7 +88,7 @@
 
         .titulo-principal {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(3rem, 10vw, 5rem); /* Proporção melhorada */
+            font-size: clamp(3rem, 10vw, 5rem);
             font-weight: 900;
             text-align: center;
             line-height: 1.1;
@@ -95,18 +98,8 @@
             letter-spacing: 1px;
             width: 100%;
         }
-        
-        .subtitulo-academico {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.7);
-            text-align: center;
-            margin-top: -30px;
-            margin-bottom: 30px;
-            font-weight: 500;
-            letter-spacing: 1px;
-        }
 
-        /* === NÍVEL 1: TELA INICIAL (BOTÕES "GORDINHOS") === */
+        /* === NÍVEL 1: TELA INICIAL (BOTÕES "GORDINHOS" TRANSLÚCIDOS) === */
         .menu-grid {
             display: flex;
             flex-direction: column;
@@ -117,11 +110,12 @@
 
         .btn-capsula {
             width: 100%;
-            max-width: 360px; /* Menos esticado */
-            padding: 22px 24px; /* Mais "gordinho" */
+            max-width: 360px;
+            padding: 22px 24px;
             border-radius: 50px;
             border: 1px solid var(--vidro-borda);
-            border-top: 2px solid var(--vidro-topo); /* Reflexo iOS 27 */
+            border-top: 1px solid var(--vidro-topo);
+            border-left: 1px solid var(--vidro-esquerda);
             color: var(--texto-branco);
             font-family: 'Outfit', sans-serif;
             font-size: 1.15rem;
@@ -137,7 +131,7 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Contraste do texto */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
 
         .btn-capsula:hover, .btn-capsula:active {
@@ -145,13 +139,13 @@
             filter: brightness(1.15);
         }
 
-        /* Cores Alternadas e Emergência */
-        .tema-roxo { background: linear-gradient(145deg, var(--roxo-base), rgba(120, 60, 180, 0.9)); }
-        .tema-ciano { background: linear-gradient(145deg, var(--ciano-base), rgba(40, 140, 190, 0.9)); }
+        /* Cores Alternadas e Emergência - Versão Cristalina */
+        .tema-roxo { background: linear-gradient(145deg, var(--roxo-claro), var(--roxo-escuro)); }
+        .tema-ciano { background: linear-gradient(145deg, var(--ciano-claro), var(--ciano-escuro)); }
         .btn-capsula.emergencia {
-            background: linear-gradient(145deg, var(--emergencia-base), rgba(120, 20, 30, 0.95));
+            background: linear-gradient(145deg, var(--emergencia-claro), var(--emergencia-escuro));
             margin-bottom: 12px;
-            border-top: 2px solid rgba(255, 100, 100, 0.6);
+            border-top: 1px solid rgba(255, 100, 100, 0.7);
         }
 
         /* === NÍVEL 2: TELA DE CARDS === */
@@ -184,7 +178,8 @@
             -webkit-backdrop-filter: var(--vidro-blur);
             border-radius: 28px;
             border: 1px solid var(--vidro-borda);
-            border-top: 2px solid var(--vidro-topo);
+            border-top: 1px solid var(--vidro-topo);
+            border-left: 1px solid var(--vidro-esquerda);
             box-shadow: var(--sombra-vidro);
             overflow: hidden;
             cursor: pointer;
@@ -201,7 +196,7 @@
             align-items: center;
             justify-content: center;
             font-size: 4.5rem;
-            background: rgba(0,0,0,0.15);
+            background: rgba(255, 255, 255, 0.05); /* Fundo sutil para destacar ícone no vidro */
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
@@ -226,13 +221,15 @@
         .detalhes-container { width: 100%; max-width: 800px; margin: 0 auto; }
 
         .caixa-principal {
-            background: linear-gradient(145deg, rgba(30, 40, 60, 0.7), rgba(15, 20, 35, 0.9));
+            /* Caixa mais transparente e elegante */
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.2));
             backdrop-filter: var(--vidro-blur);
             -webkit-backdrop-filter: var(--vidro-blur);
             border-radius: 28px;
             padding: 35px 30px;
             border: 1px solid var(--vidro-borda);
-            border-top: 2px solid var(--vidro-topo);
+            border-top: 1px solid var(--vidro-topo);
+            border-left: 1px solid var(--vidro-esquerda);
             box-shadow: var(--sombra-vidro);
             margin-bottom: 24px;
         }
@@ -263,7 +260,8 @@
             border-radius: 30px;
             padding: 20px 24px;
             border: 1px solid var(--vidro-borda);
-            border-top: 2px solid var(--vidro-topo);
+            border-top: 1px solid var(--vidro-topo);
+            border-left: 1px solid var(--vidro-esquerda);
             color: white;
             font-family: 'Outfit', sans-serif;
             font-size: 1.15rem;
@@ -274,8 +272,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            backdrop-filter: var(--vidro-blur);
+            -webkit-backdrop-filter: var(--vidro-blur);
         }
 
         .seta {
@@ -288,21 +287,22 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s cubic-bezier(0, 1, 0.5, 1);
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.25); /* Fundo mais escuro para o texto no acordeão */
             border-radius: 20px;
             margin-top: 8px;
-            box-shadow: inset 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
         }
 
         .pilula-texto {
             padding: 24px;
             font-size: 1.05rem;
             line-height: 1.7;
-            color: rgba(255,255,255,0.9);
+            color: rgba(255,255,255,0.95);
         }
 
         .pilula-texto a {
-            color: var(--ciano-solido);
+            color: var(--ciano-claro);
             font-weight: 700;
             text-decoration: none;
         }
@@ -312,10 +312,11 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-top: 2px solid rgba(255,255,255,0.6);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255,255,255,0.4);
             border-radius: 40px;
             padding: 12px 24px;
             color: white;
@@ -324,14 +325,14 @@
             font-weight: 800;
             cursor: pointer;
             margin-bottom: 24px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             transition: all 0.2s;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
             align-self: flex-start;
         }
-        .btn-voltar:hover { transform: scale(1.05); }
-        .btn-voltar.tema-roxo { background: var(--roxo-base); }
-        .btn-voltar.tema-ciano { background: var(--ciano-base); }
+        .btn-voltar:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.15); }
+        .btn-voltar.tema-roxo { background: var(--roxo-claro); }
+        .btn-voltar.tema-ciano { background: var(--ciano-claro); }
 
         /* Utilitários */
         .escondido { display: none !important; }
@@ -347,15 +348,14 @@
         <!-- ================= TELA 1: HOME ================= -->
         <div id="tela-home">
             <h1 class="titulo-principal">Bússola<br>Orientadora</h1>
-            <p class="subtitulo-academico">Tecnologia Social • PROMESTRE / UFMG</p>
             
             <div class="menu-grid">
-                <!-- Botão de Emergência (Mantido gradiente vermelho) -->
+                <!-- Botão de Emergência -->
                 <button class="btn-capsula emergencia" onclick="interagir(() => abrirDetalhesEmergencia())">
                     🚨 Acolhi um Relato Agora
                 </button>
                 
-                <!-- Botões com cores intercaladas -->
+                <!-- Botões com cores intercaladas e translúcidas -->
                 <button class="btn-capsula tema-roxo" onclick="interagir(() => abrirCategoria('acolhimento'))">
                     💜 Acolhimento Sensível
                 </button>
@@ -417,14 +417,14 @@
             window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll Reset
         }
 
-        // Banco de Dados Dinâmico Enriquecido (PROMESTRE/UFMG)
+        // Banco de Dados Dinâmico Totalmente Limpo
         const bancoDeDados = {
             emergencia: {
                 titulo: "Ação Imediata",
-                textoPrincipal: "Mantenha a calma. A prioridade agora é o acolhimento, a contenção emocional e a escuta sem julgamentos. O seu papel como educador não é investigar, mas sim acolher e proteger[span_2](start_span)[span_2](end_span).",
+                textoPrincipal: "Mantenha a calma. A prioridade agora é o acolhimento, a contenção emocional e a escuta sem julgamentos. O seu papel como educador não é investigar, mas sim acolher e proteger.",
                 opcoes: [
-                    { titulo: "📍 O que FAZER", conteudo: "<ul><li><strong>Escute com atenção:</strong> Valide a dor da criança sem transformar o momento em um interrogatório formal[span_3](start_span)[span_3](end_span).</li><li><strong>Pactuação Ética:</strong> Reafirme verbalmente que a culpa NUNCA é da criança[span_4](start_span)[span_4](end_span).</li><li><strong>Garanta a Contenção Emocional:</strong> Transmita segurança. O corpo do professor atua como abrigo[span_5](start_span)[span_5](end_span).</li></ul>" },
-                    { titulo: "🚫 O que NÃO FAZER (Risco de Revitimização)", conteudo: "<ul><li>Não faça perguntas investigativas, indutivas ou invasivas.</li><li>Não revitimize: evite que a criança precise repetir a história para várias pessoas na escola[span_6](start_span)[span_6](end_span).</li><li>Não prometa 'segredos absolutos' que impeçam você de acionar o sistema de garantia de direitos[span_7](start_span)[span_7](end_span).</li></ul>" }
+                    { titulo: "📍 O que FAZER", conteudo: "<ul><li><strong>Escute com atenção:</strong> Valide a dor da criança sem transformar o momento em um interrogatório formal.</li><li><strong>Pactuação Ética:</strong> Reafirme verbalmente que a culpa NUNCA é da criança.</li><li><strong>Garanta a Contenção Emocional:</strong> Transmita segurança. O corpo do professor atua como abrigo.</li></ul>" },
+                    { titulo: "🚫 O que NÃO FAZER (Risco de Revitimização)", conteudo: "<ul><li>Não faça perguntas investigativas, indutivas ou invasivas.</li><li>Não revitimize: evite que a criança precise repetir a história para várias pessoas na escola.</li><li>Não prometa 'segredos absolutos' que impeçam você de acionar o sistema de garantia de direitos.</li></ul>" }
                 ]
             },
             acolhimento: {
@@ -432,16 +432,16 @@
                 cards: [
                     {
                         icone: "💜", titulo: "Escuta Qualificada", resumo: "Realizando a escuta sem burocratizar o afeto.",
-                        textoPrincipal: "A escuta qualificada é o primeiro passo para a proteção. Consiste em criar um ambiente seguro onde a criança sinta que sua dor é validada, ancorado na Pedagogia Engajada (bell hooks, 2019), onde o corpo docente atua nas trincheiras das vulnerabilidades[span_8](start_span)[span_8](end_span).",
+                        textoPrincipal: "A escuta qualificada é o primeiro passo para a proteção. Consiste em criar um ambiente seguro onde a criança sinta que sua dor é validada, ancorado na Pedagogia Engajada (bell hooks, 2019), onde o corpo docente atua nas trincheiras das vulnerabilidades.",
                         opcoes: [
-                            { titulo: "🛡️ O Burocrata de Nível de Rua", conteudo: "Na linha de frente (Lipsky, 2010), o educador traduz políticas abstratas de proteção para a vida real do aluno, exercendo margem de discricionariedade para responder às urgências humanas[span_9](start_span)[span_9](end_span)." }
+                            { titulo: "🛡️ O Burocrata de Nível de Rua", conteudo: "Na linha de frente (Lipsky, 2010), o educador traduz políticas abstratas de proteção para a vida real do aluno, exercendo margem de discricionariedade para responder às urgências humanas." }
                         ]
                     },
                     {
                         icone: "🧩", titulo: "Gambiarras Pedagógicas", resumo: "Táticas inventivas e afetuosas nas frestas da escola.",
-                        textoPrincipal: "Nem sempre a estrutura é ideal. As 'Gambiarras Pedagógicas' (Alves, 2025) são táticas artesanais, afetuosas e criativas inventadas no cotidiano para garantir escuta e cuidado onde a norma fria não chega[span_10](start_span)[span_10](end_span).",
+                        textoPrincipal: "Nem sempre a estrutura é ideal. As 'Gambiarras Pedagógicas' (Alves, 2025) são táticas artesanais, afetuosas e criativas inventadas no cotidiano para garantir escuta e cuidado onde a norma fria não chega.",
                         opcoes: [
-                            { titulo: "💡 O Inédito Viável", conteudo: "Longe de ser precariedade, a gambiarra produz brechas de acolhimento e saídas coletivas no chão da escola para enfrentar situações-limite sem engessar a relação pedagógica[span_11](start_span)[span_11](end_span)." }
+                            { titulo: "💡 O Inédito Viável", conteudo: "Longe de ser precariedade, a gambiarra produz brechas de acolhimento e saídas coletivas no chão da escola para enfrentar situações-limite sem engessar a relação pedagógica." }
                         ]
                     }
                 ]
@@ -451,16 +451,16 @@
                 cards: [
                     {
                         icone: "🏫", titulo: "Passo 1: Gestão Escolar", resumo: "O registro institucional que protege o docente.",
-                        textoPrincipal: "Você não age sozinho/a. Para evitar exposição e solidão, o relato deve ser levado imediatamente à Direção. A notificação deve ser um ato da instituição escolar, e não do professor (pessoa física)[span_12](start_span)[span_12](end_span).",
+                        textoPrincipal: "Você não age sozinho/a. Para evitar exposição e solidão, o relato deve ser levado imediatamente à Direção. A notificação deve ser um ato da instituição escolar, e não do professor (pessoa física).",
                         opcoes: [
-                            { titulo: "📋 Acionamento Regional", conteudo: "A Direção elabora a ata sigilosa e aciona a Superintendência Regional de Ensino (SRE Metropolitana) para mediação[span_13](start_span)[span_13](end_span)." }
+                            { titulo: "📋 Acionamento Regional", conteudo: "A Direção elabora a ata sigilosa e aciona a Superintendência Regional de Ensino (SRE Metropolitana) para mediação." }
                         ]
                     },
                     {
                         icone: "⚖️", titulo: "Passo 2: O Sistema de Garantia (SGD)", resumo: "Encaminhamento aos órgãos de proteção legal.",
-                        textoPrincipal: "A escola atua como ponte. Sem investigar, a escola deve encaminhar o caso a quem tem poder legal de averiguação, compondo o mapa de pistas sensíveis sem anular o chão da escola[span_14](start_span)[span_14](end_span).",
+                        textoPrincipal: "A escola atua como ponte. Sem investigar, a escola deve encaminhar o caso a quem tem poder legal de averiguação, compondo o mapa de pistas sensíveis sem anular o chão da escola.",
                         opcoes: [
-                            { titulo: "📞 Rede de Contatos", conteudo: "<ul><li><strong>Conselho Tutelar:</strong> Para medidas imediatas de proteção.</li><li><strong>Ministério Público:</strong> Promotoria da Infância e Juventude para retaguarda judicial[span_15](start_span)[span_15](end_span).</li><li><strong>Disque 100:</strong> Em casos de urgência extrema.</li></ul>" }
+                            { titulo: "📞 Rede de Contatos", conteudo: "<ul><li><strong>Conselho Tutelar:</strong> Para medidas imediatas de proteção.</li><li><strong>Ministério Público:</strong> Promotoria da Infância e Juventude para retaguarda judicial.</li><li><strong>Disque 100:</strong> Em casos de urgência extrema.</li></ul>" }
                         ]
                     }
                 ]
@@ -470,16 +470,16 @@
                 cards: [
                     {
                         icone: "🛡️", titulo: "Proteção Jurídica do Docente", resumo: "Blindagem do profissional contra retaliações.",
-                        textoPrincipal: "Ao adotar a Bússola Orientadora, a notificação passa a ter um fluxo claro. Isso evita o medo de represálias e a paralisia docente diante do imprevisível[span_16](start_span)[span_16](end_span).",
+                        textoPrincipal: "Ao adotar a Bússola Orientadora, a notificação passa a ter um fluxo claro. Isso evita o medo de represálias e a paralisia docente diante do imprevisível.",
                         opcoes: [
-                            { titulo: "⚖️ Estatuto e Escuta Protegida", conteudo: "A Lei nº 13.431/2017 (Lei da Escuta Protegida) e o ECA garantem o sigilo absoluto da fonte (do/a profissional) que reporta a suspeita, resguardando sua integridade[span_17](start_span)[span_17](end_span)." }
+                            { titulo: "⚖️ Estatuto e Escuta Protegida", conteudo: "A Lei nº 13.431/2017 (Lei da Escuta Protegida) e o ECA garantem o sigilo absoluto da fonte (do/a profissional) que reporta a suspeita, resguardando sua integridade." }
                         ]
                     },
                     {
                         icone: "📝", titulo: "Caderno de Registros", resumo: "Documentação padronizada e sigilosa.",
-                        textoPrincipal: "Padronizar o registro por meio de formulários evita contradições e protege tanto a vítima quanto a equipe escolar, servindo como retaguarda institucional[span_18](start_span)[span_18](end_span).",
+                        textoPrincipal: "Padronizar o registro por meio de formulários evita contradições e protege tanto a vítima quanto a equipe escolar, servindo como retaguarda institucional.",
                         opcoes: [
-                            { titulo: "⬇️ Fichas de Encaminhamento", conteudo: "Os modelos flexíveis de registro sigiloso da Bússola serão integrados em breve para download[span_19](start_span)[span_19](end_span)." }
+                            { titulo: "⬇️ Fichas de Encaminhamento", conteudo: "Os modelos flexíveis de registro sigiloso da Bússola serão integrados em breve para download." }
                         ]
                     }
                 ]
@@ -489,9 +489,9 @@
                 cards: [
                     {
                         icone: "📖", titulo: "Meu Corpo, Meus Limites", resumo: "Invenção pedagógica em coautoria discente.",
-                        textoPrincipal: "Uma cartilha de combate ao abuso construída em coautoria entre uma professora e estudantes do Ensino Médio, validada por profissionais do Sistema de Justiça[span_20](start_span)[span_20](end_span).",
+                        textoPrincipal: "Uma cartilha de combate ao abuso construída em coautoria entre uma professora e estudantes do Ensino Médio, validada por profissionais do Sistema de Justiça.",
                         opcoes: [
-                            { titulo: "🎨 Pistas Metodológicas", conteudo: "A cartilha utiliza desenhos lúdicos e linguagem sensível para ensinar crianças do Ensino Fundamental sobre autoproteção corporais, rompendo a cegueira e os 'pânicos morais' da escola[span_21](start_span)[span_21](end_span)." }
+                            { titulo: "🎨 Pistas Metodológicas", conteudo: "A cartilha utiliza desenhos lúdicos e linguagem sensível para ensinar crianças do Ensino Fundamental sobre autoproteção corporais, rompendo a cegueira e os 'pânicos morais' da escola." }
                         ]
                     }
                 ]
@@ -529,7 +529,7 @@
             gridCards.innerHTML = '';
 
             dados.cards.forEach((card, index) => {
-                // Intercala cores nos cards
+                // Intercala cores nos cards translúcidos
                 const classeCor = (index % 2 === 0) ? 'tema-roxo' : 'tema-ciano';
                 
                 const cardHTML = `
@@ -556,12 +556,7 @@
             containerPilulas.innerHTML = '';
 
             opcoes.forEach((opcao, idx) => {
-                // Intercala cores nas pílulas (emergência mantém o estilo base, caso queira, mas aqui intercalamos roxo/ciano)
                 let classeCor = (idx % 2 === 0) ? 'tema-roxo' : 'tema-ciano';
-                
-                // Se for a opção "O que NÃO fazer" da emergência, forçamos um aspecto vermelho via inline style ou classe extra,
-                // mas seguindo seu pedido de intercalar exceto o botão principal da home, aplicaremos a regra par/ímpar.
-                // Para manter a didática, vamos deixar o roxo/ciano padrão, que ficam maravilhosos no vidro líquido.
 
                 const pilulaHTML = `
                     <div class="pilula-container">
